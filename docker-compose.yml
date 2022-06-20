@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  app:
+    container_name: app
+    build: .
+    env_file:
+      - .env
+    image: app
+    ports:
+      - "8000:8000"
+
+  test:
+    image: app
+    profiles: ["test"]
+    command: dockerize
+        -wait tcp://app:8000 -timeout 10s
+        bash -c "npm run test"
+    environment:
+      APP_URL: http://app:8000
+    depends_on:
+      - app
