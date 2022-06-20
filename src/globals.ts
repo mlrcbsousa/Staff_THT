@@ -17,3 +17,9 @@ export enum SubDepartment {
   CustomerOnboarding = 'CustomerOnboarding',
   Agriculture = 'Agriculture',
 }
+
+export enum Filter {
+  on_contract = 'on_contract',
+  department = 'department',
+  sub_department = 'sub_department',
+}

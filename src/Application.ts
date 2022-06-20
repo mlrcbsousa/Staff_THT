@@ -34,6 +34,7 @@ export class Application {
     router.post('/login', controller.login);
     router.post('/employees', auth, controller.addEmployee);
     router.delete('/employees/:id', auth, controller.deleteEmployee);
+    router.get('/ss', auth, controller.fetchSS);
     router.get('*', notFoundHandler);
     router.head('*', notFoundHandler);
     router.post('*', notFoundHandler);

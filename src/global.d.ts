@@ -1,4 +1,4 @@
-import { Currency , Department, SubDepartment } from './globals';
+import { Currency , Department, SubDepartment, Filter } from './globals';
 
 declare global {
   type Json = {
@@ -13,6 +13,18 @@ declare global {
     department: Department
     on_contract?: boolean
     sub_department: SubDepartment
+  }
+
+  type SummaryStatistic = {
+    department?: Department
+    sub_department?: SubDepartment
+    mean: number
+    min: number
+    max: number
+  }
+
+  type Options = {
+    filter?: Filter
   }
 
   type User = {

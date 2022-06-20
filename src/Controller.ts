@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import db from './Database'
+import { Service } from './Service'
 import { validateEmployee } from './schema'
+import { Filter } from './globals';
 import jwt from 'jsonwebtoken';
 
 const DUMMY_USER: User = {
@@ -55,6 +57,22 @@ export default {
 
       db.remove(employee);
       res.send(employee);
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  fetchSS(req: Request, res: Response, next: NextFunction) {
+    try {
+      const options: Options = {};
+      if (req.query.filter) {
+        options.filter = req.query.filter as Filter
+      }
+      const service = new Service(db, options);
+      const ss = service.run();
+      if (!ss.length) return res.json({
+        message: "No data available for this query."
+      });
+      res.send(ss);
     } catch (error) {
       console.log(error)
     }

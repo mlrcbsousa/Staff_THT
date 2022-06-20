@@ -41,6 +41,27 @@ export class Database {
     const index = this.employees.indexOf(employee);
     this.employees.splice(index, 1);
   }
+
+  salaries(employees: Employee[] = this.employees): number[] {
+    return employees.map(({ salary }) => salary)
+  }
+
+  salariesOnContract(): number[] {
+    return this.salaries(this.employees.filter(({ on_contract }) => on_contract));
+  }
+
+  salariesPerDepartment(department: Department): number[] {
+    return this.salaries(this.employees.filter((employee) => {
+      return employee.department === department;
+    }));
+  }
+
+  salariesPerSubDepartment(department: Department, subDepartment: SubDepartment): number[] {
+    return this.salaries(this.employees.filter((employee) => {
+      return employee.department === department && employee.sub_department === subDepartment;
+    }));
+  }
+
 }
 
 export default new Database(data);
