@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
+import db from './Database'
+import { validateEmployee } from './schema'
 import jwt from 'jsonwebtoken';
 
 const DUMMY_USER: User = {
@@ -28,6 +30,31 @@ export default {
         );
         res.status(200).json({ email: user.email, id: user.id, token });
       }
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  addEmployee(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { error } = validateEmployee(req.body);
+      if (error) return res.status(400).send(error)
+
+      const employee = db.add(req.body);
+      res.status(201).send(employee);
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  deleteEmployee(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id;
+      const employee = db.find(parseInt(id));
+      if (!employee) return res.status(404).json({
+        message: "The employee with the provided ID does not exist."
+      });
+
+      db.remove(employee);
+      res.send(employee);
     } catch (error) {
       console.log(error)
     }

@@ -32,7 +32,8 @@ export class Application {
   private routes(): void {
     let router = express.Router();
     router.post('/login', controller.login);
-
+    router.post('/employees', auth, controller.addEmployee);
+    router.delete('/employees/:id', auth, controller.deleteEmployee);
     router.get('*', notFoundHandler);
     router.head('*', notFoundHandler);
     router.post('*', notFoundHandler);
